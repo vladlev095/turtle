@@ -9,12 +9,6 @@
 *
 ********************************************************************************************/
 
-/* tasks:
-1 - turn the texture 90 degrees
-2 - show movement (picture drawn in frames, line is drawn dot by dot?) and slow down
-3 - removing what's drawn (not necessary)
-*/
-
 #include "raylib.h"
 
 #include "rlgl.h"
@@ -32,31 +26,19 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "raylib task - turtle");
 
-    // The canvas to draw lines on
-    // RenderTexture canvas = LoadRenderTexture(screenWidth, screenHeight);
-
     Camera2D camera = { 0 }; //for the grid?
     camera.zoom = 1.0f;
 
     int currentFps = 60;
 
-    int x = 400;
-    int y = 225;
-
     // Store the position for the circle
-    Vector2 deltaCircle = { 400, 225 }; 
-    //doesn't move when you change the screen
+    Vector2 deltaCircle = { GetScreenWidth()/2, 300 }; //doesn't move when you change the screen
 
     // const float speed = 10.0f;
     const float circleRadius = 5.0f;
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     Texture2D texture = LoadTexture("resources/turtlebwsm.png");        // Texture loading
-
-    // Clear the canvas to the background color
-    // BeginTextureMode(canvas);
-    // ClearBackground(RAYWHITE);
-    // EndTextureMode();
 
     SetTargetFPS(currentFps);
     //--------------------------------------------------------------------------------------
@@ -68,11 +50,8 @@ int main(void)
         // delta = Vector2Scale(delta, -1.0f/camera.zoom);
         // camera.target = Vector2Add(camera.target, delta);
 
-            // Clear the canvas to the background color
-        // BeginTextureMode(canvas);
-        // ClearBackground(RAYWHITE);
-        // EndTextureMode();
-            
+        //----------------------------------------------------------------------------------
+
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
@@ -87,22 +66,13 @@ int main(void)
                     DrawGrid(100, 25);
                 rlPopMatrix();
 
+                // Draw a reference circle
+                DrawCircle(GetScreenWidth()/2, GetScreenHeight()/2, 8, MAROON); //moves with the screen
+            EndMode2D();
 
             DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.y = deltaCircle.y - 50;
 
-            DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.x = deltaCircle.x + 50;
-
-            DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.y = deltaCircle.y + 50;
-
-            DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.x = deltaCircle.x - 50;
+            DrawTexture(texture, screenWidth/2 - texture.width/2, screenHeight/2 - texture.height/2, WHITE);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
