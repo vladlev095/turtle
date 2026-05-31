@@ -32,31 +32,29 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "raylib task - turtle");
 
-    // The canvas to draw lines on
-    // RenderTexture canvas = LoadRenderTexture(screenWidth, screenHeight);
-
-    Camera2D camera = { 0 }; //for the grid?
+    Camera2D camera = { 0 }; //for the grid
     camera.zoom = 1.0f;
 
     int currentFps = 60;
 
     int x = 400;
-    int y = 225;
-
-    // Store the position for the circle
-    Vector2 deltaCircle = { 400, 225 }; 
-    //doesn't move when you change the screen
+    int y = 250;
+    float rotation = 0.0f;
 
     // const float speed = 10.0f;
     const float circleRadius = 5.0f;
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Texture2D texture = LoadTexture("resources/turtlebwsm.png");        // Texture loading
+    Texture2D turtle = LoadTexture("resources/turtlebwsm.png");
 
-    // Clear the canvas to the background color
-    // BeginTextureMode(canvas);
-    // ClearBackground(RAYWHITE);
-    // EndTextureMode();
+    int frameWidth = turtle.width; //why?
+    int frameHeight = turtle.height;
+
+    // Source rectangle (part of the texture to use for drawing)
+    Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
+
+    // Destination rectangle (screen rectangle where drawing part of texture)
+    Rectangle destRec = { screenWidth/2.0f, screenHeight/2.0f, frameWidth*2.0f, frameHeight*2.0f };
 
     SetTargetFPS(currentFps);
     //--------------------------------------------------------------------------------------
@@ -87,22 +85,14 @@ int main(void)
                     DrawGrid(100, 25);
                 rlPopMatrix();
 
+            if (IsKeyDown(KEY_RIGHT)) x+=25, rotation = 90.0f ;
+            if (IsKeyDown(KEY_LEFT)) x-=25, rotation = 270.0f ;
+            if (IsKeyDown(KEY_UP)) y-=25, rotation = 0.0f ;
+            if (IsKeyDown(KEY_DOWN)) y+=25, rotation = 180.0f ;
 
-            DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.y = deltaCircle.y - 50;
-
-            DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.x = deltaCircle.x + 50;
-
-            DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.y = deltaCircle.y + 50;
-
-            DrawCircleV(deltaCircle, circleRadius, GRAY);
-            DrawTexture(texture, x - texture.width/2, y - texture.height/2, WHITE);
-            deltaCircle.x = deltaCircle.x - 50;
+            Vector2 origin = { x, y };
+            DrawTexturePro(turtle, sourceRec, destRec, origin, rotation, WHITE);
+            DrawCircleV(origin, circleRadius, GRAY);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -110,7 +100,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(texture);
+    UnloadTexture(turtle);
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
