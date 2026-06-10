@@ -54,9 +54,7 @@ int main(void)
     Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
 
     // Destination rectangle (screen rectangle where drawing part of texture)
-    Rectangle destRec = { screenWidth/2, screenHeight/2, (float)frameWidth, (float)frameHeight };
-
-    Vector2 origin = { turtle.width/2, turtle.height/2 };
+    Rectangle destRec = { x, y, (float)frameWidth, (float)frameHeight };
 
     SetTargetFPS(currentFps);
     //--------------------------------------------------------------------------------------
@@ -87,12 +85,15 @@ int main(void)
                     DrawGrid(100, 25);
                 rlPopMatrix();
 
-            if (IsKeyDown(KEY_RIGHT)) x+=25, rotation = 90.0f ;
-            if (IsKeyDown(KEY_LEFT)) x-=25, rotation = 270.0f ;
-            if (IsKeyDown(KEY_UP)) y-=25, rotation = 0.0f ;
-            if (IsKeyDown(KEY_DOWN)) y+=25, rotation = 180.0f ;
+            if (IsKeyPressed(KEY_RIGHT)) x+=25, rotation = 90.0f ;
+            if (IsKeyPressed(KEY_LEFT)) x-=25, rotation = 270.0f ;
+            if (IsKeyPressed(KEY_UP)) y-=25, rotation = 0.0f ;
+            if (IsKeyPressed(KEY_DOWN)) y+=25, rotation = 180.0f ;
 
             Vector2 circleCoord = { x, y };
+            Vector2 origin = { turtle.width/2, turtle.height/2 };
+
+            Rectangle destRec = { x, y, (float)frameWidth, (float)frameHeight };
 
             DrawTexturePro(turtle, sourceRec, destRec, origin, rotation, WHITE);
             DrawCircleV(circleCoord, circleRadius, GRAY);
