@@ -47,14 +47,16 @@ int main(void)
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     Texture2D turtle = LoadTexture("resources/turtlebwsm.png");
 
-    int frameWidth = turtle.width; //why?
+    int frameWidth = turtle.width;
     int frameHeight = turtle.height;
 
     // Source rectangle (part of the texture to use for drawing)
     Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
 
     // Destination rectangle (screen rectangle where drawing part of texture)
-    Rectangle destRec = { screenWidth/2.0f, screenHeight/2.0f, frameWidth*2.0f, frameHeight*2.0f };
+    Rectangle destRec = { screenWidth/2, screenHeight/2, (float)frameWidth, (float)frameHeight };
+
+    Vector2 origin = { turtle.width/2, turtle.height/2 };
 
     SetTargetFPS(currentFps);
     //--------------------------------------------------------------------------------------
@@ -90,9 +92,10 @@ int main(void)
             if (IsKeyDown(KEY_UP)) y-=25, rotation = 0.0f ;
             if (IsKeyDown(KEY_DOWN)) y+=25, rotation = 180.0f ;
 
-            Vector2 origin = { x, y };
+            Vector2 circleCoord = { x, y };
+
             DrawTexturePro(turtle, sourceRec, destRec, origin, rotation, WHITE);
-            DrawCircleV(origin, circleRadius, GRAY);
+            DrawCircleV(circleCoord, circleRadius, GRAY);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
