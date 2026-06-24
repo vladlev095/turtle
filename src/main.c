@@ -9,12 +9,6 @@
 *
 ********************************************************************************************/
 
-/* tasks:
-1 - turn the texture 90 degrees
-2 - show movement (picture drawn in frames, line is drawn dot by dot?) and slow down
-3 - removing what's drawn (not necessary)
-*/
-
 #include "raylib.h"
 
 #include "rlgl.h"
@@ -29,74 +23,85 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
     const int screenHeight = 450;
+    int currentFps = 60;
+    float rotation = 0.0f;
+    const float circleRadius = 5.0f;
 
     InitWindow(screenWidth, screenHeight, "raylib task - turtle");
 
-    Camera2D camera = { 0 }; //for the grid
+    // The canvas to draw lines on
+    RenderTexture canvas = LoadRenderTexture(screenWidth, screenHeight);
+
+    Vector2 turtlePos = { 400, 250 };
+    Vector2 prevTurtlePos = turtlePos; 
+
+    //for the grid
+    Camera2D camera = { 0 }; 
     camera.zoom = 1.0f;
 
-    int currentFps = 60;
-
-    int x = 400;
-    int y = 250;
-    float rotation = 0.0f;
-
-    // const float speed = 10.0f;
-    const float circleRadius = 5.0f;
-
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Texture2D turtle = LoadTexture("resources/turtlebwsm.png");
+    Texture2D turtleTex = LoadTexture("resources/turtlebwsm.png");
 
-    int frameWidth = turtle.width;
-    int frameHeight = turtle.height;
+    int frameWidth = turtleTex.width;
+    int frameHeight = turtleTex.height;
 
     // Source rectangle (part of the texture to use for drawing)
     Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
 
     // Destination rectangle (screen rectangle where drawing part of texture)
-    Rectangle destRec = { x, y, (float)frameWidth, (float)frameHeight };
+    Rectangle destRec = { turtlePos.x, turtlePos.y, (float)frameWidth, (float)frameHeight };
+
+    BeginTextureMode(canvas);
+        ClearBackground(RAYWHITE);
+    EndTextureMode();
 
     SetTargetFPS(currentFps);
     //--------------------------------------------------------------------------------------
 
     // Main game loop
     while (!WindowShouldClose()) // Detect window close button or ESC key
-    {
-        // Vector2 delta = GetMouseDelta();
-        // delta = Vector2Scale(delta, -1.0f/camera.zoom);
-        // camera.target = Vector2Add(camera.target, delta);
+    {   
+        bool isMoved = false;
+        if (IsKeyPressed(KEY_RIGHT)) turtlePos.x+=25, rotation = 90.0f, isMoved = true;
+        if (IsKeyPressed(KEY_LEFT)) turtlePos.x-=25, rotation = 270.0f, isMoved = true;
+        if (IsKeyPressed(KEY_UP)) turtlePos.y-=25, rotation = 0.0f, isMoved = true;
+        if (IsKeyPressed(KEY_DOWN)) turtlePos.y+=25, rotation = 180.0f, isMoved = true;
+        
+        BeginTextureMode(canvas);
+            if (isMoved) {
+                DrawLineEx(prevTurtlePos, turtlePos, 2.0f, GREEN);
+                prevTurtlePos.x = turtlePos.x;
+                prevTurtlePos.y = turtlePos.y;
+            }
+        EndTextureMode();
 
-            // Clear the canvas to the background color
-        // BeginTextureMode(canvas);
-        // ClearBackground(RAYWHITE);
-        // EndTextureMode();
-            
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
-            ClearBackground(RAYWHITE);
+            // Draw the render texture to the screen, flipped vertically to make it appear top-side up
+            DrawTextureRec(canvas.texture, (Rectangle){ 0.0f, 0.0f, (float)canvas.texture.width,(float)-canvas.texture.height }, Vector2Zero(), WHITE);
 
             BeginMode2D(camera);
                 // Draw the 3d grid, rotated 90 degrees and centered around 0,0
-                // just so we have something in the XY plane
                 rlPushMatrix();
                     rlTranslatef(0, 25*50, 0);
                     rlRotatef(90, 1, 0, 0);
                     DrawGrid(100, 25);
                 rlPopMatrix();
 
-            if (IsKeyPressed(KEY_RIGHT)) x+=25, rotation = 90.0f ;
-            if (IsKeyPressed(KEY_LEFT)) x-=25, rotation = 270.0f ;
-            if (IsKeyPressed(KEY_UP)) y-=25, rotation = 0.0f ;
-            if (IsKeyPressed(KEY_DOWN)) y+=25, rotation = 180.0f ;
+            Vector2 origin = { turtleTex.width/2, turtleTex.height/2 };
+            destRec.x = turtlePos.x;
+            destRec.y = turtlePos.y;
 
-            Vector2 circleCoord = { x, y };
-            Vector2 origin = { turtle.width/2, turtle.height/2 };
+            DrawTexturePro(turtleTex, sourceRec, destRec, origin, rotation, WHITE);
+            DrawCircleV(turtlePos, circleRadius, GRAY);
 
-            Rectangle destRec = { x, y, (float)frameWidth, (float)frameHeight };
+            // Draw mouse reference
+            DrawCircleV(GetMousePosition(), 4, DARKGRAY);
+            DrawTextEx(GetFontDefault(), TextFormat("[%i, %i]", GetMouseX(), GetMouseY()),
+            Vector2Add(GetMousePosition(), (Vector2){ -44, -24 }), 20, 2, BLACK);
 
-            DrawTexturePro(turtle, sourceRec, destRec, origin, rotation, WHITE);
-            DrawCircleV(circleCoord, circleRadius, GRAY);
+            // printf("isMoved = %d, prevX = %d, prevY = %d, x = %d, y = %d\n", isMoved, prevX, prevY, x, y);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -104,8 +109,9 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(turtle);
-    CloseWindow();        // Close window and OpenGL context
+    UnloadTexture(turtleTex);
+    UnloadRenderTexture(canvas);    // Unload the canvas render texture
+    CloseWindow();  // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
     return 0;
