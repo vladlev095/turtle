@@ -21,8 +21,8 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1200;
+    const int screenHeight = 675;
     int currentFps = 60;
     float rotation = 0.0f;
     const float circleRadius = 5.0f;
@@ -61,19 +61,29 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose()) // Detect window close button or ESC key
     {   
-        bool isMoved = false;
-        if (IsKeyPressed(KEY_RIGHT)) turtlePos.x+=25, rotation = 90.0f, isMoved = true;
-        if (IsKeyPressed(KEY_LEFT)) turtlePos.x-=25, rotation = 270.0f, isMoved = true;
-        if (IsKeyPressed(KEY_UP)) turtlePos.y-=25, rotation = 0.0f, isMoved = true;
-        if (IsKeyPressed(KEY_DOWN)) turtlePos.y+=25, rotation = 180.0f, isMoved = true;
+        // bool isMoved = false;
+        // if (IsKeyPressed(KEY_RIGHT)) turtlePos.x+=25, rotation = 90.0f, isMoved = true;
+        // if (IsKeyPressed(KEY_LEFT)) turtlePos.x-=25, rotation = 270.0f, isMoved = true;
+        // if (IsKeyPressed(KEY_UP)) turtlePos.y-=25, rotation = 0.0f, isMoved = true;
+        // if (IsKeyPressed(KEY_DOWN)) turtlePos.y+=25, rotation = 180.0f, isMoved = true;
         
-        BeginTextureMode(canvas);
-            if (isMoved) {
+        // BeginTextureMode(canvas);
+        //     if (isMoved) {
+        //         DrawLineEx(prevTurtlePos, turtlePos, 2.0f, GREEN);
+        //         prevTurtlePos.x = turtlePos.x;
+        //         prevTurtlePos.y = turtlePos.y;
+        //     }
+        // EndTextureMode();
+
+        for(int i = 0; i < 4; i++) {
+            turtlePos.y -= 25;
+            rotation = 90.0f;
+            BeginTextureMode(canvas);
                 DrawLineEx(prevTurtlePos, turtlePos, 2.0f, GREEN);
                 prevTurtlePos.x = turtlePos.x;
                 prevTurtlePos.y = turtlePos.y;
-            }
-        EndTextureMode();
+            EndTextureMode();
+        }
 
         // Draw
         //----------------------------------------------------------------------------------
