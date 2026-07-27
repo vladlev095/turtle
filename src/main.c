@@ -39,6 +39,18 @@ int main(void)
     Camera2D camera = { 0 }; 
     camera.zoom = 1.0f;
 
+    InitWindow(screenWidth, screenHeight, "raylib task - turtle");
+
+    // The canvas to draw lines on
+    RenderTexture canvas = LoadRenderTexture(screenWidth, screenHeight);
+
+    Vector2 turtlePos = { 400, 250 };
+    Vector2 prevTurtlePos = turtlePos; 
+
+    //for the grid
+    Camera2D camera = { 0 }; 
+    camera.zoom = 1.0f;
+
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     Texture2D turtleTex = LoadTexture("resources/turtlebwsm.png");
 
@@ -49,6 +61,11 @@ int main(void)
     Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
 
     // Destination rectangle (screen rectangle where drawing part of texture)
+    Rectangle destRec = { turtlePos.x, turtlePos.y, (float)frameWidth, (float)frameHeight };
+
+    BeginTextureMode(canvas);
+        ClearBackground(RAYWHITE);
+    EndTextureMode();
     Rectangle destRec = { turtlePos.x, turtlePos.y, (float)frameWidth, (float)frameHeight };
 
     BeginTextureMode(canvas);
@@ -88,6 +105,8 @@ int main(void)
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
+            // Draw the render texture to the screen, flipped vertically to make it appear top-side up
+            DrawTextureRec(canvas.texture, (Rectangle){ 0.0f, 0.0f, (float)canvas.texture.width,(float)-canvas.texture.height }, Vector2Zero(), WHITE);
             // Draw the render texture to the screen, flipped vertically to make it appear top-side up
             DrawTextureRec(canvas.texture, (Rectangle){ 0.0f, 0.0f, (float)canvas.texture.width,(float)-canvas.texture.height }, Vector2Zero(), WHITE);
 
