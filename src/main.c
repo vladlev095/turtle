@@ -13,6 +13,7 @@
 
 #include "rlgl.h"
 #include "raymath.h"
+#include <math.h>
 
     // void moveTurtle(float rotation, Vector2 turtlePos) {
 
@@ -30,6 +31,9 @@ int main(void)
     int currentFps = 60;
     float rotation = 0.0f;
     const float circleRadius = 5.0f;
+
+    const float pi = 3.14159265358979323846f;
+    float angleRadians;
 
     InitWindow(screenWidth, screenHeight, "raylib task - turtle");
 
@@ -98,6 +102,33 @@ int main(void)
             else if(rotation == 270.0f) {
                 turtlePos.x -= 25;
                 rotation += 90.0f;
+            }
+            BeginTextureMode(canvas);
+                DrawLineEx(prevTurtlePos, turtlePos, 2.0f, GREEN);
+                prevTurtlePos.x = turtlePos.x;
+                prevTurtlePos.y = turtlePos.y;
+            EndTextureMode();
+        }
+
+        for(int i = 0; i < 3; i++) {
+            // moveTurtle(rotation, turtlePos);
+            if(rotation == 0.0f) {
+                angleRadians = 360.0f * pi / 180.0f;
+                turtlePos.x + 25 * cosf(angleRadians);
+                turtlePos.y - 25 * sinf(angleRadians);
+                rotation += 120.0f;
+            }
+            else if(rotation == 120.0f) {
+                angleRadians = 120.0f * pi / 180.0f;
+                turtlePos.x + 25 * cosf(angleRadians);
+                turtlePos.y - 25 * sinf(angleRadians);
+                rotation += 120.0f;
+            }
+            else if(rotation == 240.0f) {
+                angleRadians = 240.0f * pi / 180.0f;
+                turtlePos.x + 25 * cosf(angleRadians);
+                turtlePos.y - 25 * sinf(angleRadians);
+                rotation += 120.0f;
             }
             BeginTextureMode(canvas);
                 DrawLineEx(prevTurtlePos, turtlePos, 2.0f, GREEN);
