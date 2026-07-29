@@ -14,6 +14,10 @@
 #include "rlgl.h"
 #include "raymath.h"
 
+    // void moveTurtle(float rotation, Vector2 turtlePos) {
+
+    // }
+
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
@@ -26,18 +30,6 @@ int main(void)
     int currentFps = 60;
     float rotation = 0.0f;
     const float circleRadius = 5.0f;
-
-    InitWindow(screenWidth, screenHeight, "raylib task - turtle");
-
-    // The canvas to draw lines on
-    RenderTexture canvas = LoadRenderTexture(screenWidth, screenHeight);
-
-    Vector2 turtlePos = { 400, 250 };
-    Vector2 prevTurtlePos = turtlePos; 
-
-    //for the grid
-    Camera2D camera = { 0 }; 
-    camera.zoom = 1.0f;
 
     InitWindow(screenWidth, screenHeight, "raylib task - turtle");
 
@@ -66,14 +58,11 @@ int main(void)
     BeginTextureMode(canvas);
         ClearBackground(RAYWHITE);
     EndTextureMode();
-    Rectangle destRec = { turtlePos.x, turtlePos.y, (float)frameWidth, (float)frameHeight };
-
-    BeginTextureMode(canvas);
-        ClearBackground(RAYWHITE);
-    EndTextureMode();
 
     SetTargetFPS(currentFps);
     //--------------------------------------------------------------------------------------
+
+
 
     // Main game loop
     while (!WindowShouldClose()) // Detect window close button or ESC key
@@ -93,14 +82,32 @@ int main(void)
         // EndTextureMode();
 
         for(int i = 0; i < 4; i++) {
-            turtlePos.y -= 25;
-            rotation = 90.0f;
+            // moveTurtle(rotation, turtlePos);
+            if(rotation == 0.0f) {
+                turtlePos.y -= 25;
+                rotation += 90.0f;
+            }
+            else if(rotation == 90.0f) {
+                turtlePos.x += 25;
+                rotation += 90.0f;
+            }
+            else if(rotation == 180.0f) {
+                turtlePos.y += 25;
+                rotation += 90.0f;
+            }
+            else if(rotation == 270.0f) {
+                turtlePos.x -= 25;
+                rotation += 90.0f;
+            }
             BeginTextureMode(canvas);
                 DrawLineEx(prevTurtlePos, turtlePos, 2.0f, GREEN);
                 prevTurtlePos.x = turtlePos.x;
                 prevTurtlePos.y = turtlePos.y;
             EndTextureMode();
         }
+
+        // need to move turtle diagonally - I have coord of starting point, angle and distance
+        // how do I get dest coord?
 
         // Draw
         //----------------------------------------------------------------------------------
