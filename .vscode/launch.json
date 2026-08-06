@@ -8,12 +8,14 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/${workspaceFolderBasename}",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
               {
                 "description": "Enable pretty-printing for gdb",
@@ -39,12 +41,14 @@
             "name": "Debug NoPremake",
             "type": "cppdbg",
             "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/${workspaceFolderBasename}",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
               {
                 "description": "Enable pretty-printing for gdb",
@@ -70,12 +74,14 @@
             "name": "Run Release",
             "type": "cppdbg",
             "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/${workspaceFolderBasename}",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
             "windows": {
               "program": "${workspaceFolder}/bin/Release/${workspaceFolderBasename}.exe",
               "miDebuggerPath": "gdb.exe"
