@@ -22,8 +22,7 @@
 //------------------------------------------------------------------------------------
 // Program main entry point
 //------------------------------------------------------------------------------------
-int main(void)
-{
+int main(void) {
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 1200;
@@ -69,8 +68,8 @@ int main(void)
 
 
     // Main game loop
-    while (!WindowShouldClose()) // Detect window close button or ESC key
-    {   
+    while (!WindowShouldClose()) { // Detect window close button or ESC key
+        
         // bool isMoved = false;
         // if (IsKeyPressed(KEY_RIGHT)) turtlePos.x+=25, rotation = 90.0f, isMoved = true;
         // if (IsKeyPressed(KEY_LEFT)) turtlePos.x-=25, rotation = 270.0f, isMoved = true;

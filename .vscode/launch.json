@@ -12,11 +12,21 @@
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [    
+              {
+                "name": "DEBUGINFOD_URLS",
+                "value": ""
+              }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
+              {
+                "description": "Disable debuginfod",
+                "text": "set debuginfod enabled off",
+                "ignoreFailures": false
+              },
               {
                 "description": "Enable pretty-printing for gdb",
                 "text": "-enable-pretty-printing",
@@ -45,11 +55,21 @@
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [    
+              {
+                "name": "DEBUGINFOD_URLS",
+                "value": ""
+              }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
+              {
+                "description": "Disable debuginfod",
+                "text": "set debuginfod enabled off",
+                "ignoreFailures": false
+              },
               {
                 "description": "Enable pretty-printing for gdb",
                 "text": "-enable-pretty-printing",
@@ -78,7 +98,12 @@
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
-            "environment": [],
+            "environment": [    
+              {
+                "name": "DEBUGINFOD_URLS",
+                "value": ""
+              }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb",
