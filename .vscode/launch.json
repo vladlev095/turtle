@@ -43,7 +43,7 @@
             },
             "linux": {
               "program": "${workspaceFolder}/bin/Debug/${workspaceFolderBasename}",
-              "miDebuggerPath": "/usr/bin/gdb",
+              "miDebuggerPath": "/usr/bin/gdb"
             },
             "preLaunchTask": "build debug"
           },
@@ -86,7 +86,7 @@
             },
             "linux": {
               "program": "${workspaceFolder}/bin/Debug/${workspaceFolderBasename}",
-              "miDebuggerPath": "/usr/bin/gdb",
+              "miDebuggerPath": "/usr/bin/gdb"
             },
             "preLaunchTask": "build debug no premake"
           },
@@ -119,7 +119,16 @@
               "program": "${workspaceFolder}/bin/Release/${workspaceFolderBasename}",
               "miDebuggerPath": "/usr/bin/gdb"
             },
-            "preLaunchTask": "build release",
+            "preLaunchTask": "build release"
+          },
+          {
+            "name": "CodeLLDB Debug",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/${workspaceFolderBasename}",
+            "cwd": "${workspaceFolder}",
+            "args": [],
+            "preLaunchTask": "build debug"
           }
         ]
       }
