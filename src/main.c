@@ -108,25 +108,27 @@ int main(void) {
                 prevTurtlePos.y = turtlePos.y;
             EndTextureMode();
         }
+        rotation = 0.0f;
+        turtlePos.x = 400;
+        turtlePos.y = 250;
+        prevTurtlePos = turtlePos; 
 
         for(int i = 0; i < 3; i++) {
             // moveTurtle(rotation, turtlePos);
             if(rotation == 0.0f) {
-                angleRadians = 360.0f * pi / 180.0f;
-                turtlePos.x + 25 * cosf(angleRadians);
-                turtlePos.y - 25 * sinf(angleRadians);
+                turtlePos.y -= 25;
                 rotation += 120.0f;
             }
             else if(rotation == 120.0f) {
                 angleRadians = 120.0f * pi / 180.0f;
-                turtlePos.x + 25 * cosf(angleRadians);
-                turtlePos.y - 25 * sinf(angleRadians);
+                turtlePos.x += 25 * cosf(angleRadians);
+                turtlePos.y -= 25 * sinf(angleRadians);
                 rotation += 120.0f;
             }
             else if(rotation == 240.0f) {
                 angleRadians = 240.0f * pi / 180.0f;
-                turtlePos.x + 25 * cosf(angleRadians);
-                turtlePos.y - 25 * sinf(angleRadians);
+                turtlePos.x += 25 * cosf(angleRadians);
+                turtlePos.y -= 25 * sinf(angleRadians);
                 rotation += 120.0f;
             }
             BeginTextureMode(canvas);
@@ -135,9 +137,7 @@ int main(void) {
                 prevTurtlePos.y = turtlePos.y;
             EndTextureMode();
         }
-
-        // need to move turtle diagonally - I have coord of starting point, angle and distance
-        // how do I get dest coord?
+        // printf("prevX = %d, prevY = %d, x = %d, y = %d\n", prevTurtlePos.x, prevTurtlePos.y, turtlePos.x, turtlePos.y);
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -166,8 +166,6 @@ int main(void) {
             DrawCircleV(GetMousePosition(), 4, DARKGRAY);
             DrawTextEx(GetFontDefault(), TextFormat("[%i, %i]", GetMouseX(), GetMouseY()),
             Vector2Add(GetMousePosition(), (Vector2){ -44, -24 }), 20, 2, BLACK);
-
-            // printf("isMoved = %d, prevX = %d, prevY = %d, x = %d, y = %d\n", isMoved, prevX, prevY, x, y);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
