@@ -30,9 +30,16 @@ int main(void) {
     int currentFps = 60;
     float rotation = 0.0f;
     const float circleRadius = 5.0f;
+    int movesCount = 0;
+    int step = 225;
 
     const float pi = 3.14159265358979323846f;
-    float angleRadians;
+    float angleRadians120 = 120.0f * pi / 180.0f;
+    float angleRadians240 = 240.0f * pi / 180.0f;
+    float cosf120 = cosf(angleRadians120);
+    float sinf120 = sinf(angleRadians120);
+    float cosf240 = cosf(angleRadians240);
+    float sinf240 = sinf(angleRadians240);
 
     InitWindow(screenWidth, screenHeight, "raylib task - turtle");
 
@@ -65,8 +72,6 @@ int main(void) {
     SetTargetFPS(currentFps);
     //--------------------------------------------------------------------------------------
 
-
-
     // Main game loop
     while (!WindowShouldClose()) { // Detect window close button or ESC key
         
@@ -84,22 +89,21 @@ int main(void) {
         //     }
         // EndTextureMode();
 
-        for(int i = 0; i < 4; i++) {
-            // moveTurtle(rotation, turtlePos);
+        for( ;movesCount < 4; movesCount++) {
             if(rotation == 0.0f) {
-                turtlePos.y -= 25;
+                turtlePos.y -= step;
                 rotation += 90.0f;
             }
             else if(rotation == 90.0f) {
-                turtlePos.x += 25;
+                turtlePos.x += step;
                 rotation += 90.0f;
             }
             else if(rotation == 180.0f) {
-                turtlePos.y += 25;
+                turtlePos.y += step;
                 rotation += 90.0f;
             }
             else if(rotation == 270.0f) {
-                turtlePos.x -= 25;
+                turtlePos.x -= step;
                 rotation += 90.0f;
             }
             BeginTextureMode(canvas);
@@ -109,26 +113,24 @@ int main(void) {
             EndTextureMode();
         }
         rotation = 0.0f;
-        turtlePos.x = 400;
-        turtlePos.y = 250;
-        prevTurtlePos = turtlePos; 
+        // turtlePos.x = 400;
+        // turtlePos.y = 250;
+        // prevTurtlePos = turtlePos; 
 
-        for(int i = 0; i < 3; i++) {
+        for( ; movesCount < 7; movesCount++) {
             // moveTurtle(rotation, turtlePos);
             if(rotation == 0.0f) {
-                turtlePos.y -= 25;
+                turtlePos.y -= step;
                 rotation += 120.0f;
             }
             else if(rotation == 120.0f) {
-                angleRadians = 120.0f * pi / 180.0f;
-                turtlePos.x += 25 * cosf(angleRadians);
-                turtlePos.y -= 25 * sinf(angleRadians);
+                turtlePos.x += step * sinf120;
+                turtlePos.y -= step * cosf120;
                 rotation += 120.0f;
             }
             else if(rotation == 240.0f) {
-                angleRadians = 240.0f * pi / 180.0f;
-                turtlePos.x += 25 * cosf(angleRadians);
-                turtlePos.y -= 25 * sinf(angleRadians);
+                turtlePos.x += step * sinf240;
+                turtlePos.y -= step * cosf240;
                 rotation += 120.0f;
             }
             BeginTextureMode(canvas);
@@ -142,8 +144,6 @@ int main(void) {
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
-            // Draw the render texture to the screen, flipped vertically to make it appear top-side up
-            DrawTextureRec(canvas.texture, (Rectangle){ 0.0f, 0.0f, (float)canvas.texture.width,(float)-canvas.texture.height }, Vector2Zero(), WHITE);
             // Draw the render texture to the screen, flipped vertically to make it appear top-side up
             DrawTextureRec(canvas.texture, (Rectangle){ 0.0f, 0.0f, (float)canvas.texture.width,(float)-canvas.texture.height }, Vector2Zero(), WHITE);
 
